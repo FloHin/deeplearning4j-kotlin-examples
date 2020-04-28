@@ -1,4 +1,4 @@
-package examples.a_mnist
+package examples
 
 import org.deeplearning4j.datasets.iterator.impl.EmnistDataSetIterator
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration
@@ -30,7 +30,7 @@ import org.nd4j.linalg.lossfunctions.LossFunctions
  * 5. Evaluate the performance of your model.
  *
  */
-class MNISTExample : Example {
+class MNISTExample(val epochs: Int = 2) : Example {
 
     override fun run() {
         val batchSize = 128 // how many examples to simultaneously train in the network
@@ -43,7 +43,7 @@ class MNISTExample : Example {
         }
 
         val network = logTime("2. Train model") {
-            trainModel(conf, emnistTrain, 5)
+            trainModel(conf, emnistTrain, epochs)
         }
 
         logTime("3. Evaluate model") {
@@ -121,14 +121,11 @@ class MNISTExample : Example {
 
         // evaluate ROC and calculate the Area Under Curve
         val roc: ROCMultiClass = network.evaluateROCMultiClass(emnistTest, 0)
-        //        roc.calculateAUC(classIndex)
 
         // optionally, you can print all stats from the evaluations
         print(eval.stats())
         print(roc.stats())
     }
-
-
 }
 
 fun main() {

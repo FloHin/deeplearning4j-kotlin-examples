@@ -1,4 +1,4 @@
-package examples.a_mnist
+package examples
 
 interface Example {
     fun run()
